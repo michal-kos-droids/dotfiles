@@ -1,3 +1,3 @@
 require("josean.core.keymaps")
 require("josean.core.options")
--- require("josean.core.autocommands")
+require("josean.core.autocommands")

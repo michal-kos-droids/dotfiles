@@ -1,32 +1,33 @@
 -- ~/.config/nvim/lua/core/autocommands.lua
 -- Mon, 10 Jul 2023 07:13:37
 
-vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
-  group = "bufcheck",
-  pattern = "*.swift",
-  callback = function(ev)
-    local lines = #vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
+-- vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
+--   group = "bufcheck",
+--   pattern = "*.swift",
+--   callback = function(ev)
+--     local lines = #vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
+--
+--     if lines > 1 then
+--       return
+--     end
+--
+--     vim.api.nvim_buf_set_lines(ev.buf, 0, -1, false, {
+--       "//",
+--       "//  " .. vim.fn.expand("%:t"),
+--       "//",
+--       "//",
+--       "//  Created by Michał Kos on " .. os.date("!%d/%m/%Y") .. ".",
+--       "//",
+--       "",
+--       "",
+--     })
+--
+    -- vim.api.nvim_win_set_cursor(0, { 8, 1 })
+    -- vim.cmd("startinsert")
+  -- end,
+-- })
 
-    if lines > 1 then
-      return
-    end
-
-    vim.api.nvim_buf_set_lines(ev.buf, 0, -1, false, {
-      "//",
-      "//  " .. vim.fn.expand("%:t"),
-      "//",
-      "//",
-      "//  Created by Michał Kos on " .. os.date("!%d/%m/%Y") .. ".",
-      "//",
-      "",
-      "",
-    })
-
-    vim.api.nvim_win_set_cursor(0, { 8, 1 })
-    vim.cmd("startinsert")
-  end,
-})
-
+vim.api.nvim_set_hl(0, "@type.qualifier.swift", { link = "Keyword" })
 -- Define local variables
 -- local augroup = vim.api.nvim_create_augroup
 -- local autocmd = vim.api.nvim_create_autocmd
