@@ -51,3 +51,6 @@ opt.swapfile = false
 
 opt.exrc = true
 opt.secure = true
+
+-- opt.spelllang = 'en_us,pl' 
+-- opt.spell = true

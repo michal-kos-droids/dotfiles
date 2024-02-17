@@ -1,6 +1,8 @@
-return {}
--- local expand_swift_closure = function()
+-- -- closures.lua
 --
+-- local M = {}
+--
+-- function M.expand_swift_closure()
 --   local currentLine = vim.api.nvim_get_current_line()
 --   local closurePattern = "^(%s*)([^%(]*)%(([^%(]*), %w+%: %(([^%)]*)%) %-%> %([^%)]*%)%)"
 --
@@ -42,4 +44,11 @@ return {}
 --   end
 -- end
 --
--- vim.keymap.set("n", "se", expand_swift_closure, { desc = "Expand Swift Closure" })
+-- return M
+--
+-- return {
+--   config = function()
+--     vim.keymap.set("n", "se", M.expand_swift_closure, { desc = "Expand Swift Closure" })
+--   end
+-- }
+return {}

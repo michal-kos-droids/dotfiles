@@ -1,5 +1,56 @@
 -- ~/.config/nvim/lua/core/autocommands.lua
--- Mon, 10 Jul 2023 07:13:37
+
+--
+--vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
+--  group = "bufcheck",
+--  pattern = "*.swift",
+--  callback = function(ev)
+--    local lines = #vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
+--
+--    if lines > 1 then
+--      return
+--    end
+--
+--    local filename = string.match(ev.file, "([^/]*)%.swift")
+--    local name = filename
+--
+--    -- TODO: make sure this path leads to your folder with templates!!
+--    local basepath = os.getenv("HOME") .. "/.config/templates/swift/"
+--    local templates = { "View", "ViewModel", "Builder", "Router", "Tests", "Spec" }
+--
+--    local template
+--    local cursor
+--
+--    for _, templateSuffix in ipairs(templates) do
+--      if vim.endswith(filename, templateSuffix) then
+--        template = vim.fn.readfile(basepath .. string.lower(templateSuffix) .. ".txt")
+--        name = string.gsub(name, templateSuffix, "")
+--        break
+--      end
+--    end
+--
+--    template = template or vim.fn.readfile(basepath .. "empty.txt")
+--
+--    for i = 1, #template do
+--      template[i] = string.gsub(template[i], "{date}", os.date("%d/%m/%Y"))
+--      template[i] = string.gsub(template[i], "{filename}", filename)
+--      template[i] = string.gsub(template[i], "{name}", name)
+--
+--      if cursor == nil and string.find(template[i], "{cursor}") then
+--        cursor = { i, tonumber(string.find(template[i], "{cursor}")) + 1 }
+--      end
+--      template[i] = string.gsub(template[i], "{cursor}", " ")
+--    end
+--
+--    vim.api.nvim_buf_set_lines(ev.buf, 0, -1, false, template)
+--
+--    if cursor then
+--      vim.api.nvim_win_set_cursor(0, cursor)
+--    end
+--
+--    vim.cmd("w")
+--  end,
+--})
 
 -- vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
 --   group = "bufcheck",
@@ -26,6 +77,22 @@
     -- vim.cmd("startinsert")
   -- end,
 -- })
+--
+vim.api.nvim_create_autocmd("User", {
+  pattern = { "XcodebuildBuildFinished", "XcodebuildTestsFinished" },
+  callback = function(event)
+    if event.data.cancelled then
+      return
+    end
+
+    if event.data.success then
+      require("trouble").close()
+    elseif not event.data.failedCount or event.data.failedCount > 0 then
+      require("trouble").open({ focus = false })
+      require("trouble").refresh()
+    end
+  end,
+})
 
 vim.api.nvim_set_hl(0, "@type.qualifier.swift", { link = "Keyword" })
 -- Define local variables

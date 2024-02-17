@@ -33,7 +33,7 @@ keymap.set("n", "<leader>nh", ":nohl<CR>", { desc = "Clear search highlights" })
 -- delete single character without copying into register
 keymap.set("n", "x", '"_x')
 -- Jumplist 
-keymap.set("n", "<C-m>", "<C-i>")
+-- keymap.set("n", "<C-m>", "<C-i>")
 
 -- increment/decrement numbers
 keymap.set("n", "<leader>+", "<C-a>", { desc = "Increment number" }) -- increment
@@ -57,44 +57,34 @@ keymap.set("n", "<C-k>", "<cmd>TmuxNavigateUp<CR>", { desc = "Navigate up" })   
 keymap.set("n", "<C-l>", "<cmd>TmuxNavigateRight<CR>", { desc = "Navigate right" })             -- navigate right
 
 -- xcodebuild
-keymap.set("n", "<leader>xc", "<cmd>XcodebuildToggleLogs<cr>", { desc = "Toggle Xcodebuild Logs" })
+keymap.set("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", { desc = "Show Xcodebuild Actions" })
+keymap.set("n", "<leader>xf", "<cmd>XcodebuildProjectManager<cr>", { desc = "Show Project Manager Actions" })
 keymap.set("n", "<leader>xb", "<cmd>XcodebuildBuild<cr>", { desc = "Build Project" })
-keymap.set("n", "<leader>xB", "<cmd>XcodebuildBootSimulator<cr>", { desc = "Boot simulator" })
-keymap.set("n", "<leader>xC", "<cmd>XcodebuildCleanBuild<cr>", { desc = "Clean build Project" })
+keymap.set("n", "<leader>xB", "<cmd>XcodebuildBuildForTesting<cr>", { desc = "Build For Testing" })
+keymap.set("n", "<leader>xR", "<cmd>XcodebuildCleanBuild<cr>", { desc = "Clean Build Project" })
 keymap.set("n", "<leader>xr", "<cmd>XcodebuildBuildRun<cr>", { desc = "Build & Run Project" })
 keymap.set("n", "<leader>xt", "<cmd>XcodebuildTest<cr>", { desc = "Run Tests" })
+keymap.set("v", "<leader>xt", "<cmd>XcodebuildTestSelected<cr>", { desc = "Run Selected Tests" })
 keymap.set("n", "<leader>xT", "<cmd>XcodebuildTestClass<cr>", { desc = "Run This Test Class" })
-keymap.set("n", "<leader>X", "<cmd>XcodebuildPicker<cr>", { desc = "Show All Xcodebuild Actions" })
+keymap.set("n", "<leader>xL", "<cmd>XcodebuildToggleLogs<cr>", { desc = "Toggle Xcodebuild Logs" })
+keymap.set("n", "<leader>xc", "<cmd>XcodebuildToggleCodeCoverage<cr>", { desc = "Toggle Code Coverage" })
+keymap.set("n", "<leader>xC", "<cmd>XcodebuildShowCodeCoverageReport<cr>", { desc = "Show Code Coverage Report" })
+keymap.set("n", "<leader>xe", "<cmd>XcodebuildTestExplorerToggle<cr>", { desc = "Toggle Test Explorer" })
+keymap.set("n", "<leader>xs", "<cmd>XcodebuildFailingSnapshots<cr>", { desc = "Show Failing Snapshots" })
 keymap.set("n", "<leader>xd", "<cmd>XcodebuildSelectDevice<cr>", { desc = "Select Device" })
 keymap.set("n", "<leader>xp", "<cmd>XcodebuildSelectTestPlan<cr>", { desc = "Select Test Plan" })
 keymap.set("n", "<leader>xQ", "<cmd>Telescope quickfix<cr>", { desc = "Show QuickFix List" })
-keymap.set("n", "<leader>xs", "<cmd>XcodebuildSelectScheme<cr>", { desc = "Select Scheme" })
-keymap.set("n", "<leader>xS", "<cmd>XcodebuildFailingSnapshots<cr>", { desc = "Show failing snapshots" })
 
--- DAP
-keymap.set('n', '<leader>dc', function() require('dap').continue() end, { desc = "Continue" })
-keymap.set('n', '<F10>', function() require('dap').step_over() end, { desc = "Step over" })
-keymap.set('n', '<F11>', function() require('dap').step_into() end, { desc = "Step into" })
-keymap.set('n', '<F12>', function() require('dap').step_out() end, { desc = "Step out" })
-keymap.set('n', '<Leader>b', function() require('dap').toggle_breakpoint() end, { desc = "Toggle breakpoint" })
-keymap.set('n', '<Leader>B', function() require('dap').set_breakpoint() end, { desc = "Set breakpoint" })
-keymap.set('n', '<Leader>lp',
-  function() require('dap').set_breakpoint(nil, nil, vim.fn.input('Log point message: ')) end,
-  { desc = "Log point message" })
-keymap.set('n', '<Leader>dr', function() require('dap').repl.open() end)
-keymap.set('n', '<Leader>dl', function() require('dap').run_last() end)
-keymap.set({ 'n', 'v' }, '<Leader>dh', function() require('dap.ui.widgets').hover() end)
-keymap.set({ 'n', 'v' }, '<Leader>dp', function() require('dap.ui.widgets').preview() end)
-keymap.set('n', '<Leader>df',
-  function()
-    local widgets = require('dap.ui.widgets')
-    widgets.centered_float(widgets.frames)
-  end)
-keymap.set('n', '<Leader>ds',
-  function()
-    local widgets = require('dap.ui.widgets')
-    widgets.centered_float(widgets.scopes)
-  end)
+-- keymap.set(
+--   "n",
+--   "<leader>xg",
+--   "<cmd>!pushd /Users/michalkos/Workspace/mobilecccios/ && regenerate.sh; popd<cr>",
+--   { desc = "Run tuist" }
+-- )
+
+keymap.set("n", "[i", "<cmd>silent cn<cr>zz", { desc = "Jump to next issue" })
+keymap.set("n", "]i", "<cmd>silent cp<cr>zz", { desc = "Jump to previous issue" })
+
 
 -- DAPUI
 keymap.set('n', '<Leader>dq', function() require('dapui').toggle() end)
@@ -107,6 +97,18 @@ keymap.set("n", "<C-g>", "<CMD>LazyGit<CR>", { desc = "Git" })
 
 -- Git signs
 keymap.set("n", "<leader>gh", "<CMD>Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
+keymap.set('n', ']c', function()
+  if vim.wo.diff then return ']c' end
+  local gs = require('gitsigns')
+  vim.schedule(function() gs.next_hunk() end)
+  return '<Ignore>'
+end, {expr=true})
+keymap.set('n', '[c', function()
+  if vim.wo.diff then return '[c' end
+  local gs = require('gitsigns')
+  vim.schedule(function() gs.prev_hunk() end)
+  return '<Ignore>'
+end, {expr=true})
 
 -- Fugitive
 keymap.set("n", "<leader>gb", "<CMD>Git blame<CR>", { desc = "Git blame" })
