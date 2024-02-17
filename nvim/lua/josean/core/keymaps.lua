@@ -95,20 +95,5 @@ keymap.set("n", "-", "<CMD>Oil --float<CR>", { desc = "Open parent directory" })
 -- LazyGit
 keymap.set("n", "<C-g>", "<CMD>LazyGit<CR>", { desc = "Git" })
 
--- Git signs
-keymap.set("n", "<leader>gh", "<CMD>Gitsigns preview_hunk<CR>", { desc = "Preview hunk" })
-keymap.set('n', ']c', function()
-  if vim.wo.diff then return ']c' end
-  local gs = require('gitsigns')
-  vim.schedule(function() gs.next_hunk() end)
-  return '<Ignore>'
-end, {expr=true})
-keymap.set('n', '[c', function()
-  if vim.wo.diff then return '[c' end
-  local gs = require('gitsigns')
-  vim.schedule(function() gs.prev_hunk() end)
-  return '<Ignore>'
-end, {expr=true})
-
 -- Fugitive
 keymap.set("n", "<leader>gb", "<CMD>Git blame<CR>", { desc = "Git blame" })
