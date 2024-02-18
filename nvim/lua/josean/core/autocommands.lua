@@ -1,83 +1,63 @@
 -- ~/.config/nvim/lua/core/autocommands.lua
 
---
---vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
---  group = "bufcheck",
---  pattern = "*.swift",
---  callback = function(ev)
---    local lines = #vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
---
---    if lines > 1 then
---      return
---    end
---
---    local filename = string.match(ev.file, "([^/]*)%.swift")
---    local name = filename
---
---    -- TODO: make sure this path leads to your folder with templates!!
---    local basepath = os.getenv("HOME") .. "/.config/templates/swift/"
---    local templates = { "View", "ViewModel", "Builder", "Router", "Tests", "Spec" }
---
---    local template
---    local cursor
---
---    for _, templateSuffix in ipairs(templates) do
---      if vim.endswith(filename, templateSuffix) then
---        template = vim.fn.readfile(basepath .. string.lower(templateSuffix) .. ".txt")
---        name = string.gsub(name, templateSuffix, "")
---        break
---      end
---    end
---
---    template = template or vim.fn.readfile(basepath .. "empty.txt")
---
---    for i = 1, #template do
---      template[i] = string.gsub(template[i], "{date}", os.date("%d/%m/%Y"))
---      template[i] = string.gsub(template[i], "{filename}", filename)
---      template[i] = string.gsub(template[i], "{name}", name)
---
---      if cursor == nil and string.find(template[i], "{cursor}") then
---        cursor = { i, tonumber(string.find(template[i], "{cursor}")) + 1 }
---      end
---      template[i] = string.gsub(template[i], "{cursor}", " ")
---    end
---
---    vim.api.nvim_buf_set_lines(ev.buf, 0, -1, false, template)
---
---    if cursor then
---      vim.api.nvim_win_set_cursor(0, cursor)
---    end
---
---    vim.cmd("w")
---  end,
---})
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost", "BufWritePost" }, {
+  pattern = "*.swift",
+  callback = function(ev)
+    local lines = #vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
 
--- vim.api.nvim_create_autocmd({ "BufNewFile", "BufReadPost" }, {
---   group = "bufcheck",
---   pattern = "*.swift",
---   callback = function(ev)
---     local lines = #vim.api.nvim_buf_get_lines(ev.buf, 0, -1, false)
---
---     if lines > 1 then
---       return
---     end
---
---     vim.api.nvim_buf_set_lines(ev.buf, 0, -1, false, {
---       "//",
---       "//  " .. vim.fn.expand("%:t"),
---       "//",
---       "//",
---       "//  Created by Michał Kos on " .. os.date("!%d/%m/%Y") .. ".",
---       "//",
---       "",
---       "",
---     })
---
-    -- vim.api.nvim_win_set_cursor(0, { 8, 1 })
-    -- vim.cmd("startinsert")
-  -- end,
--- })
---
+    if lines > 1 then
+      return
+    end
+
+    local filename = string.match(ev.file, "([^/]*)%.swift")
+    local name = filename
+
+    -- TODO: make sure this path leads to your folder with templates!!
+    local basepath = os.getenv("HOME") .. "/.config/templates/swift/"
+    local templates = { "View", "ViewModel", "Builder", "Router", "ViewTests" ,"Tests", "Spec", "Coordinator", "Presenter", "Interactor"} 
+
+    local template
+    local cursor
+
+    for _, templateSuffix in ipairs(templates) do
+      if vim.endswith(filename, templateSuffix) then
+        template = vim.fn.readfile(basepath .. string.lower(templateSuffix) .. ".txt")
+        name = string.gsub(name, templateSuffix, "")
+        break
+      end
+    end
+
+    template = template or vim.fn.readfile(basepath .. "empty.txt")
+
+    for i = 1, #template do
+      template[i] = string.gsub(template[i], "{date}", os.date("%d/%m/%Y"))
+      template[i] = string.gsub(template[i], "{year}", os.date("%Y"))
+      template[i] = string.gsub(template[i], "{filename}", filename)
+      template[i] = string.gsub(template[i], "{name}", name)
+
+      if cursor == nil and string.find(template[i], "{cursor}") then
+        cursor = { i, tonumber(string.find(template[i], "{cursor}")) + 1 }
+      end
+      template[i] = string.gsub(template[i], "{cursor}", " ")
+    end
+
+    vim.api.nvim_buf_set_lines(ev.buf, 0, -1, false, template)
+
+    if cursor then
+      vim.api.nvim_win_set_cursor(0, cursor)
+    end
+
+    vim.cmd("w")
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufReadPre", {
+  pattern = "*",
+  callback = function() 
+    vim.api.nvim_set_hl(0, "type.qualifier.swift", { link = "Keyword" }) 
+  end, 
+})
+
 vim.api.nvim_create_autocmd("User", {
   pattern = { "XcodebuildBuildFinished", "XcodebuildTestsFinished" },
   callback = function(event)
@@ -94,7 +74,6 @@ vim.api.nvim_create_autocmd("User", {
   end,
 })
 
-vim.api.nvim_set_hl(0, "@type.qualifier.swift", { link = "Keyword" })
 -- Define local variables
 -- local augroup = vim.api.nvim_create_augroup
 -- local autocmd = vim.api.nvim_create_autocmd

@@ -1,0 +1,40 @@
+//
+//  {filename}.swift
+//
+//
+//  Created by Michał Kos on {date}.
+//  Copyright © {year} Droids On Roids. All rights reserved.
+//
+
+import CCCProtocols
+
+public protocol {filename}Protocol: CoordinatorProtocol {}
+
+public protocol {filename}Delegate: AnyObject, AutoMockable {}
+
+public final class {filename}: {filename}Protocol {
+    weak var delegate: {filename}Delegate?
+
+    public let rootViewController: Navigable
+
+    private let factories: {filename}FactoriesProtocol
+    private let coordinatorFactory: SharedCoordinatorFactoryProtocol
+
+    init(
+        rootViewController: Navigable,
+        factories: {filename}FactoriesProtocol,
+        delegate: {filename}Delegate?,
+        coordinatorFactory: SharedCoordinatorFactoryProtocol
+    ) {
+        self.rootViewController = rootViewController
+        self.factories = factories
+        self.delegate = delegate
+        self.coordinatorFactory = coordinatorFactory
+    }
+
+    public func start() {
+        {cursor}
+    }
+}
+
+extension {filename}: {filename}Protocol {}

@@ -8,10 +8,6 @@ return {
         disable_background = true,
         disable_italics = true,
       })
-
-      vim.cmd('colorscheme rose-pine-moon')
-      vim.api.nvim_set_hl(0, "@type.qualifier.swift", { link = "Keyword" })
-
     end,
   },
   {

@@ -1,0 +1,22 @@
+//
+//  {filename}.swift
+//  CCCSnashotsTests
+//
+//  Created by Michał Kos on {date}.
+//  Copyright © {year} Droids On Roids. All rights reserved.
+//
+
+import PreviewSnapshotsTesting
+import XCTest
+
+@testable import {cursor}
+
+final class {filename}Tests: XCTestCase {
+    func testSnapshots_ShouldRenderCorrectly() {
+        {filename}_Previews.snapshots.assertSnapshotsOnIPhone13Pro()
+    }
+
+    func testSnapshots_ShouldRenderCorrectly_iPhoneSE() {
+        {filename}_Previews.snapshots.assertSnapshotsOnIPhoneSE()
+    }
+}

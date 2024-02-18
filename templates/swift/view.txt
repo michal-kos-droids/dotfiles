@@ -1,0 +1,32 @@
+//
+//  {filename}.swift
+// 
+//
+//  Created by Michał Kos on {date}.
+//  Copyright © {year} Droids On Roids. All rights reserved.
+//
+
+import CCCDesignSystem
+import CCCResources
+import CCCUIComponents
+
+import PreviewSnapshots
+import SwiftUI
+
+struct {filename}<Presenter: {filename}PresenterProtocol>: View {
+    @ObservedObject var presenter: Presenter
+
+    var body: some View {
+        Text("{filename}")
+    }
+}
+
+struct {filename}_Previews: PreviewProvider {
+    static var previews: some View { snapshots.previews }
+
+    static var snapshots: PreviewSnapshots<{filename}PresenterFake> {
+        PreviewSnapshots(
+            configurations: [.init(name: "{filename}", state: {filename}PresenterFake())]
+        ) { {filename}(presenter: $0) }
+    }
+}

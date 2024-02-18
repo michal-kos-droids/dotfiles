@@ -1,0 +1,32 @@
+//
+//  {filename}.swift
+//
+//
+//  Created by Michał Kos on {date}.
+//  Copyright © {year} Droids On Roids. All rights reserved.
+//
+
+import CCCProtocolsModels
+import CCCResources
+
+import SwiftUI
+
+public protocol {filename}Delegate: AnyObject, AutoMockable {}
+
+public protocol {filename}Protocol: ObservableObject, AutoMockable {}
+
+public final class {filename} {
+    private weak var delegate: {filename}Delegate?
+
+    private let interactor: {filename}InteractorProtocol
+
+    public init(
+        delegate: {filename}Delegate?,
+        interactor: {filename}InteractorProtocol
+    ) {
+        self.delegate = delegate
+        self.interactor = interactor
+    }
+}
+
+extension {filename}: {filename}Protocol {}
