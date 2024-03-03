@@ -16,7 +16,7 @@ ralt - l    : yabai -m window --focus east  || yabai -m display --focus east
 # ralt - 0x27 : yabai -m window --focus  last
 
 # Float / Unfloat window: ralt - space
-# ralt - space : yabai -m window --toggle float; sketchybar --trigger window_focus
+ralt - space : yabai -m window --toggle float; sketchybar --trigger window_focus
 
 # Change focus between external displays 
 ralt - q: yabai -m display --focus west 
@@ -121,4 +121,4 @@ shift + ctrl + ralt - s : yabai -m window --insert stack
 #                   fi \
 
 # Restart yabai
-shift + ralt - r : brew services restart yabai
+# shift + ralt - r : brew services restart yabai
