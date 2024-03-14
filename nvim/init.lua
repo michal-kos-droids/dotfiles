@@ -114,7 +114,7 @@ vim.opt.clipboard = 'unnamedplus'
 
 -- Enable break indent
 -- vim.opt.breakindent = true
-
+vim.env.SOURCEKIT_LOGGING = 3
 -- Save undo history
 vim.opt.undofile = true
 
@@ -237,6 +237,9 @@ vim.keymap.set('n', '<leader>S', ':%s/\\<<C-r><C-w>\\>/', { desc = 'Search and r
 -- use jk to exit insert mode
 vim.keymap.set('i', 'jk', '<ESC>', { desc = 'Exit insert mode with jk' })
 
+-- close all buffers but the current one
+vim.keymap.set('n', '<leader>bd', '<cmd>bd|e#<CR>', { desc = 'Close all buffers but the current one' })
+
 -- clear search highlights
 vim.keymap.set('n', '<leader>nh', ':nohl<CR>', { desc = 'Clear search highlights' })
 
@@ -256,6 +259,18 @@ vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory
 
 -- LazyGit
 vim.keymap.set('n', '<C-g>', '<CMD>LazyGit<CR>', { desc = 'Git' })
+
+-- Splits
+vim.keymap.set('n', '<leader>o', '<CMD>:only<CR>', { desc = 'Close all but focused split' })
+
+-- TODO comments
+vim.keymap.set('n', '<leader>st', '<CMD>TodoTelescope<CR>', { desc = 'Search TODO comments' })
+
+-- Open file in finder
+vim.keymap.set('n', '<leader>so', '<CMD>lua require("telescope.builtin").file_browser()<CR>', { desc = 'Open file in finder' })
+
+-- Inlay hints
+-- if vim.lsp
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`

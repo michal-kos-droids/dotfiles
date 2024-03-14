@@ -1,4 +1,4 @@
-return {              -- Useful plugin to show you pending keybinds.
+return { -- Useful plugin to show you pending keybinds.
   'folke/which-key.nvim',
   event = 'VimEnter', -- Sets the loading event to 'VimEnter'
   config = function() -- This is the function that runs, AFTER loading
@@ -14,6 +14,7 @@ return {              -- Useful plugin to show you pending keybinds.
       ['<leader>g'] = { name = '[G]itsigns', _ = 'which_key_ignore' },
       ['<leader>x'] = { name = '[X]code', _ = 'which_key_ignore' },
       ['<leader>m'] = { name = '[M]Formatting', _ = 'which_key_ignore' },
+      ['<leader>t'] = { name = '[T]ree', _ = 'which_key_ignore' },
     }
   end,
 }

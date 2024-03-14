@@ -3,7 +3,7 @@ return {
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   event = { 'BufReadPre', 'BufNewFile' },
   keys = {
-    { '<leader>xn', '<cmd>TroubleToggle quickfix<cr>', { desc = 'Open a quickfix' } },
+    { '<leader>xn', '<cmd>TroubleToggle quickfix<cr>', { desc = 'Open trouble' } },
   },
   opts = {},
   config = function()

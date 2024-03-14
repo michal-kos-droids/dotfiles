@@ -5,6 +5,10 @@ ralt - 2 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai
 ralt - 3 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai -m space --focus $((3+4*($DISPLAY - 1)))
 ralt - 4 : DISPLAY="$(yabai -m query --displays --display | jq '.index')"; yabai -m space --focus $((4+4*($DISPLAY - 1)))
 
+# Window Navigation (through window stack): ralt - {n, p}
+ralt - n : yabai -m space --focus next || yabai -m space --focus first
+ralt - p : yabai -m space --focus prev || yabai -m space --focus last
+
 # Window Navigation (through display borders): ralt - {j, k, l, ö}
 ralt - h    : yabai -m window --focus west  || yabai -m display --focus west
 ralt - j    : yabai -m window --focus south || yabai -m display --focus south

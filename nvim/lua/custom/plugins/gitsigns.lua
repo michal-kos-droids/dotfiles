@@ -37,7 +37,7 @@ return {
     map('n', '<leader>gb', gs.toggle_current_line_blame, { desc = "Toggle blame line" })
     -- map('n', '<leader>gD', gs.diffthis, { desc = "Diff this" })
     -- map('n', '<leader>gD', function() gs.diffthis('~') end, { desc =
-    map('n', '<leader>td', gs.toggle_deleted, { desc = "Toggle deleted" })
+    -- map('n', '<leader>gd', gs.toggle_deleted, { desc = "Toggle deleted" })
 
     -- Text object
     map({'o', 'x'}, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = "Select hunk" })
