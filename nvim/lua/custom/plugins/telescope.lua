@@ -53,10 +53,23 @@ return { -- Fuzzy Finder (files, lsp, etc)
       defaults = {
         path_display = { 'truncate ' },
         file_ignore_patterns = { '.git/' },
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '-u', -- thats the new thing
+          '--glob',
+          '!{.git,node_modules,*.xcodeproj,Pods,Testplans}/*',
+        },
       },
       pickers = {
         find_files = {
           hidden = true,
+          no_ignore = true,
         },
         live_grep = {
           hidden = true,

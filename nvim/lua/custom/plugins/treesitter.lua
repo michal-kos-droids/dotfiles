@@ -6,7 +6,7 @@ return { -- Highlight, edit, and navigate code
 
     ---@diagnostic disable-next-line: missing-fields
     require('nvim-treesitter.configs').setup {
-      ensure_installed = { 'swift', 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc' },
+      ensure_installed = { 'swift', 'bash', 'c', 'html', 'lua', 'markdown', 'vim', 'vimdoc', 'xml' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = { enable = true },
@@ -14,8 +14,8 @@ return { -- Highlight, edit, and navigate code
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = '<C-space>',
-          node_incremental = '<C-space>',
+          init_selection = '<C-z>',
+          node_incremental = '<C-z>',
           scope_incremental = false,
           node_decremental = '<bs>',
         },
