@@ -178,10 +178,20 @@ vim.opt.swapfile = false
 vim.opt.exrc = true
 vim.opt.secure = true
 
+vim.opt.autoread = true
+
+-- refresh files if changed outside
+vim.fn.timer_start(2000, function()
+  vim.cmd 'silent! checktime'
+end, { ['repeat'] = -1 })
+
 -- opt.spelllang = 'en_us,pl'
 -- opt.spell = true
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
+--
+
+-- Splits
 
 -- Set highlight on search, but clear on pressing <Esc> in normal mode
 vim.opt.hlsearch = false
@@ -199,7 +209,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -252,7 +262,13 @@ vim.keymap.set('n', ']i', '<cmd>silent cp<cr>zz', { desc = 'Jump to previous iss
 -- DAPUI
 vim.keymap.set('n', '<Leader>dq', function()
   require('dapui').toggle()
-end)
+end, { desc = 'Toggle DAP UI' })
+
+vim.keymap.set('n', '<Leader>dc', function()
+  require('dapui').toggle {
+    layout = 2,
+  }
+end, { desc = 'Toggle console' })
 
 -- Oil
 vim.keymap.set('n', '-', '<CMD>Oil --float<CR>', { desc = 'Open parent directory' })
@@ -262,6 +278,12 @@ vim.keymap.set('n', '<C-g>', '<CMD>LazyGit<CR>', { desc = 'Git' })
 
 -- Splits
 vim.keymap.set('n', '<leader>o', '<CMD>:only<CR>', { desc = 'Close all but focused split' })
+
+-- Use arrow keys to resize splits
+vim.keymap.set('n', '<C-Up>', '<C-w>+', { desc = 'Increase split size' })
+vim.keymap.set('n', '<C-Down>', '<C-w>-', { desc = 'Decrease split size' })
+vim.keymap.set('n', '<C-Left>', '<CMD>vertical resize +5<CR>', { desc = 'Decrease split size' })
+vim.keymap.set('n', '<C-Right>', '<CMD>vertical resize -5<CR>', { desc = 'Decrease split size' })
 
 -- TODO comments
 vim.keymap.set('n', '<leader>st', '<CMD>TodoTelescope<CR>', { desc = 'Search TODO comments' })
@@ -363,7 +385,7 @@ vim.api.nvim_create_autocmd('User', {
     if event.data.success then
       require('trouble').close()
     elseif not event.data.failedCount or event.data.failedCount > 0 then
-      require('trouble').open { focus = false }
+      require('trouble').open { focus = false, mode = 'quickfix' }
       require('trouble').refresh()
     end
   end,
@@ -431,7 +453,41 @@ require('lazy').setup {
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
+
+  -- autosession.lua
+  -- colorscheme.lua
+  -- comment.lua
+  -- copilot.lua
+  -- expand_swift_closure.lua
+  -- fidget.lua
+  -- formatting.lua
+  -- gitsigns.lua
+  -- harpoon.lua
+  -- init.lua
+  -- lazygit.lua
+  -- linting.lua
+  -- lspconfig.lua
+  -- lualine.lua
+  -- mini.lua
+  -- nvim-cmp.lua
+  -- nvim-dap-ui.lua
+  -- nvim-dap.lua
+  -- nvim-nio.lua
+  -- nvim-tree.lua
+  -- oil.lua
+  -- telescope.lua
+  -- todo-comments.lua
+  -- treesitter.lua
+  -- trouble.lua
+  -- undo-tree.lua
+  -- vim-tmux-navigator.lua
+  -- which-key.lua
+  -- xcodebuild.lua
+  --
+  --
   { import = 'custom.plugins' },
+  -- { import = 'custom.plugins.colorscheme.lua' },
+  -- { import = 'custom.plugins.autosession.lua' },
 }
 
 -- The line beneath this is called `modeline`. See `:help modeline`

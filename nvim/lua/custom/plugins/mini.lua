@@ -16,13 +16,13 @@ return { -- Collection of various small independent plugins/modules
     -- - sr)'  - [S]urround [R]eplace [)] [']
     require('mini.surround').setup()
 
-    require("mini.splitjoin").setup({
+    require('mini.splitjoin').setup {
       mappings = {
-        toggle = "sj",
-        split = "",
-        join = "",
+        toggle = 'sj',
+        split = '',
+        join = '',
       },
-    })
+    }
 
     -- -- Simple and easy statusline.
     -- --  You could remove this setup call if you don't like it,

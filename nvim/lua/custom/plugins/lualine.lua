@@ -14,7 +14,7 @@ return {
       sections = {
         lualine_x = {
           { "' ' .. vim.g.xcodebuild_last_status", color = { fg = 'Gray' } },
-          { "'󰙨 ' .. vim.g.xcodebuild_scheme", color = { fg = '#e0def4' } },
+          { "'󰙨 ' .. vim.g.xcodebuild_scheme", color = { fg = 'Gray' } },
           {
             lazy_status.updates,
             cond = lazy_status.has_updates,

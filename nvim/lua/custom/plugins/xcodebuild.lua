@@ -5,6 +5,11 @@ return {
     'nvim-telescope/telescope.nvim',
     'MunifTanjim/nui.nvim',
   },
+  integrations = {
+    xcodebuild_offline = {
+      enabled = true,
+    },
+  },
   config = function()
     require('xcodebuild').setup {
       auto_focus = true,

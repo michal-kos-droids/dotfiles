@@ -1,15 +1,15 @@
 local M = {}
 
 local function file_exist(file_path)
-  local f = io.open(file_path, "r")
+  local f = io.open(file_path, 'r')
   return f ~= nil and io.close(f)
 end
 
 function M.store()
-  local breakpoints = require("dap.breakpoints")
-  local settings = vim.fn.getcwd() .. "/.nvim"
-  local breakpoints_fp = settings .. "/breakpoints.json"
-  vim.fn.systemlist({ "mkdir", "-p", settings })
+  local breakpoints = require 'dap.breakpoints'
+  local settings = vim.fn.getcwd() .. '/.nvim'
+  local breakpoints_fp = settings .. '/breakpoints.json'
+  vim.fn.systemlist { 'mkdir', '-p', settings }
 
   local bps = {}
 
@@ -17,7 +17,7 @@ function M.store()
     local breakpoints_handle = io.open(breakpoints_fp)
 
     if breakpoints_handle then
-      local load_bps_raw = breakpoints_handle:read("*a")
+      local load_bps_raw = breakpoints_handle:read '*a'
       breakpoints_handle:close()
 
       if string.len(load_bps_raw) > 0 then
@@ -31,7 +31,7 @@ function M.store()
     bps[vim.api.nvim_buf_get_name(bufrn)] = breakpoints_by_buf[bufrn]
   end
 
-  local fp = io.open(breakpoints_fp, "w")
+  local fp = io.open(breakpoints_fp, 'w')
   if fp then
     fp:write(vim.fn.json_encode(bps))
     fp:close()
@@ -39,15 +39,15 @@ function M.store()
 end
 
 function M.load()
-  local breakpoints = require("dap.breakpoints")
-  local settings = vim.fn.getcwd() .. "/.nvim"
+  local breakpoints = require 'dap.breakpoints'
+  local settings = vim.fn.getcwd() .. '/.nvim'
 
-  local fp = io.open(settings .. "/breakpoints.json", "r")
+  local fp = io.open(settings .. '/breakpoints.json', 'r')
   if not fp then
     return
   end
 
-  local content = fp:read("*a")
+  local content = fp:read '*a'
   fp:close()
 
   if string.len(content) == 0 then
@@ -73,46 +73,46 @@ function M.load()
 end
 
 function M.setupListeners()
-  local dap = require("dap")
+  local dap = require 'dap'
 
-  dap.listeners.after["event_initialized"]["me"] = function()
-    vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Continue" })
-    vim.keymap.set("n", "<leader>dC", dap.run_to_cursor, { desc = "Run To Cursor" })
-    vim.keymap.set("n", "<leader>ds", dap.step_over, { desc = "Step Over" })
-    vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step Into" })
-    vim.keymap.set("n", "<leader>do", dap.step_out, { desc = "Step Out" })
-    vim.keymap.set("x", "<Leader>de", require("dapui").eval)
-    vim.keymap.set("n", "<leader>dk", require("dap.ui.widgets").hover)
-    vim.keymap.set("n", "<leader>dp", require("dap.ui.widgets").preview)
+  dap.listeners.after['event_initialized']['me'] = function()
+    vim.keymap.set('n', '<leader>dc', dap.continue, { desc = 'Continue' })
+    vim.keymap.set('n', '<leader>dC', dap.run_to_cursor, { desc = 'Run To Cursor' })
+    vim.keymap.set('n', '<leader>ds', dap.step_over, { desc = 'Step Over' })
+    vim.keymap.set('n', '<leader>di', dap.step_into, { desc = 'Step Into' })
+    vim.keymap.set('n', '<leader>do', dap.step_out, { desc = 'Step Out' })
+    vim.keymap.set('x', '<Leader>de', require('dapui').eval)
+    vim.keymap.set('n', '<leader>dk', require('dap.ui.widgets').hover)
+    vim.keymap.set('n', '<leader>dp', require('dap.ui.widgets').preview)
   end
 
-  dap.listeners.after["event_terminated"]["me"] = function()
-    vim.keymap.del("n", "<leader>dc")
-    vim.keymap.del("n", "<leader>dC")
-    vim.keymap.del("n", "<leader>ds")
-    vim.keymap.del("n", "<leader>di")
-    vim.keymap.del("n", "<leader>do")
-    vim.keymap.del("x", "<Leader>de")
-    vim.keymap.del("n", "<leader>dk")
-    vim.keymap.del("n", "<leader>dp")
+  dap.listeners.after['event_terminated']['me'] = function()
+    vim.keymap.del('n', '<leader>dc')
+    vim.keymap.del('n', '<leader>dC')
+    vim.keymap.del('n', '<leader>ds')
+    vim.keymap.del('n', '<leader>di')
+    vim.keymap.del('n', '<leader>do')
+    vim.keymap.del('x', '<Leader>de')
+    vim.keymap.del('n', '<leader>dk')
+    vim.keymap.del('n', '<leader>dp')
   end
 end
 
 return {
-  "mfussenegger/nvim-dap",
-  dependencies = { "wojciech-kulik/xcodebuild.nvim" },
+  'mfussenegger/nvim-dap',
+  dependencies = { 'wojciech-kulik/xcodebuild.nvim' },
   config = function()
-    local dap = require("dap")
-    local xcodebuild = require("xcodebuild.dap")
-    local autogroup = vim.api.nvim_create_augroup("dap-breakpoints", { clear = true })
+    local dap = require 'dap'
+    local xcodebuild = require 'xcodebuild.dap'
+    local autogroup = vim.api.nvim_create_augroup('dap-breakpoints', { clear = true })
 
     dap.configurations.swift = {
       {
-        name = "iOS App Debugger",
-        type = "codelldb",
-        request = "attach",
+        name = 'iOS App Debugger',
+        type = 'codelldb',
+        request = 'attach',
         program = xcodebuild.get_program_path,
-        cwd = "${workspaceFolder}",
+        cwd = '${workspaceFolder}',
         stopOnEntry = false,
         waitFor = true,
       },
@@ -120,31 +120,31 @@ return {
 
     -- TODO: make sure that paths match your environment!!
     dap.adapters.codelldb = {
-      type = "server",
-      port = "13000",
+      type = 'server',
+      port = '13000',
       executable = {
-        command = os.getenv("HOME") .. "/Workspace/codelldb-aarch64-darwin/extension/adapter/codelldb",
+        command = os.getenv 'HOME' .. '/Workspace/codelldb-aarch64-darwin/extension/adapter/codelldb',
         args = {
-          "--port",
-          "13000",
-          "--liblldb",
-          "/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+          '--port',
+          '13000',
+          '--liblldb',
+          '/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB',
         },
       },
     }
 
     -- Suppress annoying message from codelldb
-    local orig_notify = require("dap.utils").notify
-    require("dap.utils").notify = function(msg, log_level)
-      if not string.find(msg, "Either the adapter is slow") then
+    local orig_notify = require('dap.utils').notify
+    require('dap.utils').notify = function(msg, log_level)
+      if not string.find(msg, 'Either the adapter is slow') then
         orig_notify(msg, log_level)
       end
     end
 
     -- Load Breakpoints
-    vim.api.nvim_create_autocmd({ "VimEnter" }, {
+    vim.api.nvim_create_autocmd({ 'VimEnter' }, {
       group = autogroup,
-      pattern = "*",
+      pattern = '*',
       once = true,
       callback = function()
         vim.defer_fn(M.load, 500)
@@ -153,32 +153,32 @@ return {
 
     -- Improve icons
     local define = vim.fn.sign_define
-    define("DapBreakpoint", { text = "", texthl = "DiagnosticError", linehl = "", numhl = "" })
-    define("DapBreakpointRejected", { text = "", texthl = "DiagnosticError", linehl = "", numhl = "" })
-    define("DapStopped", { text = "", texthl = "DiagnosticOk", linehl = "", numhl = "" })
-    define("DapLogPoint", { text = "", texthl = "DiagnosticInfo", linehl = "", numhl = "" })
-    define("DapLogPoint", { text = "", texthl = "DiagnosticInfo", linehl = "", numhl = "" })
+    define('DapBreakpoint', { text = '', texthl = 'DiagnosticError', linehl = '', numhl = '' })
+    define('DapBreakpointRejected', { text = '', texthl = 'DiagnosticError', linehl = '', numhl = '' })
+    define('DapStopped', { text = '', texthl = 'DiagnosticOk', linehl = '', numhl = '' })
+    define('DapLogPoint', { text = '', texthl = 'DiagnosticInfo', linehl = '', numhl = '' })
+    define('DapLogPoint', { text = '', texthl = 'DiagnosticInfo', linehl = '', numhl = '' })
 
     M.setupListeners()
 
-    vim.keymap.set("n", "<leader>dd", xcodebuild.build_and_debug, { desc = "Build & Debug" })
-    vim.keymap.set("n", "<leader>dr", xcodebuild.debug_without_build, { desc = "Debug Without Building" })
-    vim.keymap.set("n", "<leader>dt", xcodebuild.debug_tests, { desc = "Debug Tests" })
-    vim.keymap.set("n", "<leader>dT", xcodebuild.debug_class_tests, { desc = "Debug Class Tests" })
-    vim.keymap.set("n", "<leader>b", function()
+    vim.keymap.set('n', '<leader>dd', xcodebuild.build_and_debug, { desc = 'Build & Debug' })
+    vim.keymap.set('n', '<leader>dr', xcodebuild.debug_without_build, { desc = 'Debug Without Building' })
+    vim.keymap.set('n', '<leader>dt', xcodebuild.debug_tests, { desc = 'Debug Tests' })
+    vim.keymap.set('n', '<leader>dT', xcodebuild.debug_class_tests, { desc = 'Debug Class Tests' })
+    vim.keymap.set('n', '<leader>b', function()
       dap.toggle_breakpoint()
       M.store()
-    end, { desc = "Toggle Breakpoint" })
-    vim.keymap.set("n", "<leader>B", function()
-      dap.set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
+    end, { desc = 'Toggle Breakpoint' })
+    vim.keymap.set('n', '<leader>B', function()
+      dap.set_breakpoint(nil, nil, vim.fn.input 'Log point message: ')
       M.store()
-    end, { desc = "Toggle Log Breakpoint" })
-    vim.keymap.set("n", "<Leader>dx", function()
+    end, { desc = 'Toggle Log Breakpoint' })
+    vim.keymap.set('n', '<Leader>dx', function()
       if dap.session() then
         dap.terminate()
       end
-      require("xcodebuild.actions").cancel()
-      require("dapui").close()
-    end, { desc = "Terminate" })
+      require('xcodebuild.actions').cancel()
+      require('dapui').close()
+    end, { desc = 'Terminate' })
   end,
 }
